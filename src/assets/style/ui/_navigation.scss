@@ -1,0 +1,11 @@
+.main-navigation {
+    @include padding($top: 30px, $bottom: 30px);
+    @include margin($left: auto, $bottom: auto);
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+
+    a {
+
+    }
+}

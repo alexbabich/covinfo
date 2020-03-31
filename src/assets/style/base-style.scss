@@ -1,0 +1,40 @@
+* {
+    transition: all .3s ease;
+}
+
+body {
+    font-size: 16px;
+    line-height: 1.2;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.container {
+    @include padding($left: 15px, $right: 15px);
+    @include margin($left: auto, $right: auto);
+    width: 100%;
+
+    @include mobileL {
+        max-width: 540px;
+    }
+
+    @include tablet {
+        max-width: 720px;
+    }
+
+    @include tabletL {
+        max-width: 960px;
+    }
+
+    @include laptopL {
+        max-width: 1140px; 
+    }
+}

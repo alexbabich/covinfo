@@ -1,2 +1,8 @@
+@import './variables';
+@import './mixin.scss';
+@import './base-style';
+
 // import style for ui elements
 @import './ui/index.scss';
+
+@import './general-page';

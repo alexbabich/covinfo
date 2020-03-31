@@ -1,0 +1,29 @@
+// font variables
+$baseFontSize: 16;
+
+// color variables
+$green: #62ea0f;
+
+// links
+$color-link-hover: desaturate( $green, 75% );
+$color-link-active: desaturate( $green, 50% );
+$color-link: saturate( $green, 25% );
+
+// variables for mobile breakpoint
+$mobileS: 320px;
+$mobileM: 375px;
+$mobileL: 576px;
+$tablet: 768px;
+$tabletL: 992px;
+$laptop: 1024px;
+$laptopL: 1200px;
+$desktop: 1440px;
+
+$media-mobileS: '(min-width: '$mobileS')';
+$media-mobileM: '(min-width: '$mobileM')';
+$media-mobileL: '(min-width: '$mobileL')';
+$media-tablet: '(min-width: '$tablet')';
+$media-tabletL: '(min-width: '$tabletL')';
+$media-laptop: '(min-width: '$laptop')';
+$media-laptopL: '(min-width: '$laptopL')';
+$media-desktop: '(min-width: '$desktop')';

@@ -1,2 +1,23 @@
-// import font awesome
-@import "~@fortawesome/fontawesome-free/css/all.min.css";
+a:not([href]):not([tabindex]),
+a:not([href]):not([tabindex]):focus,
+a:not([href]):not([tabindex]):hover {
+    color: inherit;
+    text-decoration: none;
+    cursor: default;
+}
+
+a[href] {
+    color: $color-link;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        color: $color-link-hover;
+    }
+
+    &.router-link-active {
+        color: $color-link-active;
+        cursor: default;
+    }
+}

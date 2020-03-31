@@ -1,0 +1,95 @@
+// function for convert px to rem
+@function rem($pixels, $context: $baseFontSize) {
+  @if (unitless($pixels)) {
+    $pixels: $pixels * 1px;
+  }
+
+  @if (unitless($context)) {
+    $context: $context * 1px;
+  }
+
+  @return $pixels / $context * 1rem;
+}
+
+// mixin for style breakpoint
+@mixin mobileS {
+  @media (min-width: $mobileS) {
+    @content;
+  }
+}
+
+@mixin mobileM {
+  @media (min-width: $mobileM) {
+    @content;
+  }
+}
+
+@mixin mobileL {
+  @media (min-width: $mobileL) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin tabletL {
+  @media (min-width: $tabletL) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media (min-width: $laptop) {
+    @content;
+  }
+}
+
+@mixin laptopL {
+  @media (min-width: $laptopL) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $desktop) {
+    @content;
+  }
+}
+
+// mixin for padding
+@mixin padding($top: null, $right: null, $bottom: null, $left: null, $media: null) {
+  @if $media {
+    @media #{$media} {
+      padding-top: $top;
+      padding-right: $right;
+      padding-bottom: $bottom;
+      padding-left: $left;
+    }
+  } @else {
+    padding-top: $top;
+    padding-right: $right;
+    padding-bottom: $bottom;
+    padding-left: $left;
+  }  
+}
+
+// mixin for margin
+@mixin margin($top: null, $right: null, $bottom: null, $left: null, $media: null) {
+  @if $media {
+    @media #{$media} {
+      margin-top: $top;
+      margin-right: $right;
+      margin-bottom: $bottom;
+      margin-left: $left;
+    }
+  } @else {
+    margin-top: $top;
+    margin-right: $right;
+    margin-bottom: $bottom;
+    margin-left: $left;
+  }  
+}

@@ -1,0 +1,66 @@
+.cov-general-list {
+    @include padding($top: 20px, $media: $media-tablet);
+    @include padding($top: 50px, $media: $media-laptop);
+    @include margin($left: auto, $right: auto);
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @include mobileM {
+        width: 80%;
+        flex-direction: row;
+    }
+
+    @include tabletL {
+        width: 60%;
+    }
+
+    li {
+        @include padding($top: 5px, $bottom: 5px);
+        @include margin($top: 5px, $bottom: 5px);
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        @include mobileM {
+            flex-direction: column;
+        }
+
+        .svg-inline--fa {
+            @include margin($right: 5px);
+
+            @include mobileM {
+                @include margin($right: 0);
+            }
+        }
+
+        span {
+            @include margin($left: 5px);
+
+            @include mobileM {
+                @include margin($left: 0);
+            }
+        }
+    }
+}
+
+.cov-world-time {
+    display: block;
+
+    @include tablet {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    p {
+        display: block;
+
+        @include tablet {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
