@@ -9,47 +9,46 @@ Vue.use(Vuex, VueAxios, axios)
 
 export default new Vuex.Store({
   state: {
-    usersData: [],
-    usersData2: [],
+    allData: [],
+    infoByCountry: [],
     countryList: []
   },
   mutations: {
-    SAVE_USERS (state, usersData) {
-      state.usersData = usersData
+    ALL_INFO (state, allData) {
+      state.allData = allData
     },
-    SAVE_USERS2 (state, usersData2) {
-      state.usersData2 = usersData2
+    INFO_BY_COUNTRY (state, infoByCountry) {
+      console.log(infoByCountry)
+      state.infoByCountry = infoByCountry
     },
     COUNTRY_LIST (state, countryList) {
       state.countryList.push(countryList.country)
     }
   },
   actions: {
-    loadCountry ({ commit }) {
-      // api v1
-      axios.get('https://corona.lmao.ninja/countries').then(result => {
-        result.data.map(resp => {
-          commit('COUNTRY_LIST', resp)
-        })
-      }).catch(error => {
-        throw new Error(`API ${error}`)
-      })
-    },
-    loadUsers ({ commit }) {
+    allInfo ({ commit }) {
       // api v1
       axios.get('https://corona.lmao.ninja/all').then(result => {
-        commit('SAVE_USERS', result.data)
+        commit('ALL_INFO', result.data)
       }).catch(error => {
         throw new Error(`API ${error}`)
       })
     },
-    loadUsers2 ({ commit }) {
+    countrysInfo ({ commit }) {
       // api v1
-      axios.get('https://corona.lmao.ninja/countries').then(result => {
-        commit('SAVE_USERS2', result.data)
-      }).catch(error => {
-        throw new Error(`API ${error}`)
-      })
+      axios.get('https://corona.lmao.ninja/countries')
+        // .then(result => {
+        //   console.log(result)
+        //   result.data.map(resp => {
+        //     commit('COUNTRY_LIST', resp)
+        //   })
+        // })
+        .then(result => {
+          commit('INFO_BY_COUNTRY', result.data)
+        })
+        .catch(error => {
+          throw new Error(`API ${error}`)
+        })
       // api v2
       // axios.get('https://corona.lmao.ninja/v2/jhucsse').then(result => {
       //   commit('SAVE_USERS2', result.data)
@@ -62,7 +61,7 @@ export default new Vuex.Store({
   },
   getters: {
     getCountryByName: state => country => {
-      return state.usersData2.find(item => item.country === country)
+      return state.infoByCountry.find(item => item.country === country)
     }
   }
 })

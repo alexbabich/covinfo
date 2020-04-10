@@ -3,19 +3,19 @@
     <Loader
       :isLoading="isLoading"
     />
-    <template v-if='checkRequestStatus == isLoading'>
-      <!-- <p> {{ usersData }} </p> -->
+    <template v-if='isLoading'>
+      <!-- <p> {{ this.countryList }} </p> -->
       <!-- <div class="cov-world-time">
-        <p><b>last update time </b> <span v-if="usersData.updated">{{ usersData.updated | moment("MMM Do, h:mm a") }}</span></p>
-        <p><b>Los Angeles</b> <span v-if="usersData.updated">{{ usersData.updated | moment('timezone', 'America/Los_Angeles', 'MMM Do, h:mm a') }}</span></p>
-        <p><b>London</b> <span v-if="usersData.updated">{{ usersData.updated | moment('timezone', 'Europe/London', 'MMM Do, h:mm a') }}</span></p>
-        <p><b>Shanghai</b> <span v-if="usersData.updated">{{ usersData.updated | moment('timezone', 'Asia/Shanghai', 'MMM Do, h:mm a') }}</span></p>
+        <p><b>last update time </b> <span v-if="allData.updated">{{ allData.updated | moment("MMM Do, h:mm a") }}</span></p>
+        <p><b>Los Angeles</b> <span v-if="allData.updated">{{ allData.updated | moment('timezone', 'America/Los_Angeles', 'MMM Do, h:mm a') }}</span></p>
+        <p><b>London</b> <span v-if="allData.updated">{{ allData.updated | moment('timezone', 'Europe/London', 'MMM Do, h:mm a') }}</span></p>
+        <p><b>Shanghai</b> <span v-if="allData.updated">{{ allData.updated | moment('timezone', 'Asia/Shanghai', 'MMM Do, h:mm a') }}</span></p>
       </div> -->
       <ul class="cov-general-list">
-        <li class="item"><font-awesome-icon icon="history" /><b>last update time</b> <span>{{ usersData.updated | moment("MMM Do, h:mm a") }}</span></li>
-        <li class="item"><font-awesome-icon icon="viruses" /><b>cases</b> <span>{{ usersData.cases }}</span></li>
-        <li class="item"><font-awesome-icon icon="skull-crossbones" /><b>deaths</b> <span>{{ usersData.deaths }}</span></li>
-        <li class="item"><font-awesome-icon icon="heartbeat" /><b>recovered</b> <span>{{ usersData.recovered }}</span></li>
+        <li class="item"><font-awesome-icon icon="history" /><b>last update time</b> <span>{{ allData.updated | moment("MMM Do, h:mm a") }}</span></li>
+        <li class="item"><font-awesome-icon icon="viruses" /><b>cases</b> <span>{{ allData.cases }}</span></li>
+        <li class="item"><font-awesome-icon icon="skull-crossbones" /><b>deaths</b> <span>{{ allData.deaths }}</span></li>
+        <li class="item"><font-awesome-icon icon="heartbeat" /><b>recovered</b> <span>{{ allData.recovered }}</span></li>
       </ul>
       <br/>
       <ul class="cov-country-list">
@@ -26,7 +26,7 @@
           @click="getCountryInfo(item.country)"
         >
           <img class="item-img" :src="item.countryInfo.flag" :alt="item.country" />
-          <span class="item-title">{{item.country}}</span>
+          <!-- <span class="item-title">{{item.country}}</span> -->
         </li>
       </ul>
       <div class="cov-country-info" v-if="Object.keys(this.selectCountry).length > 0">
@@ -64,21 +64,33 @@ export default {
     }
   },
   computed: {
-    ...mapState(['usersData', 'usersData2', 'countryList']),
+    ...mapState(['allData', 'infoByCountry']),
     checkRequestStatus () {
-      if (this.usersData !== null && this.usersData2 !== null) {
+      if (this.allData !== null && this.infoByCountry.length !== 0) {
         return true
       } else {
         return false
       }
+    },
+    countryList () {
+      return this.$store.state.countryList
+    },
+    infoCountrys () {
+      // this.$store.dispatch('countrysInfo')
+      console.log(this.$store.state.infoByCountry)
+      return this.$store.state.infoByCountry
     }
   },
+  beforeCreate () {
+    console.log('1')
+    this.$store.dispatch('allInfo')
+    console.log('2')
+    this.$store.dispatch('countrysInfo')
+    console.log('3')
+  },
   created () {
-    this.$store.dispatch('loadUsers')
-    this.$store.dispatch('loadUsers2')
-    this.$store.dispatch('loadCountry')
-    console.log(this.countryList)
-    this.sortableCountry = this.usersData2.sort(function (a, b) {
+    // console.log(this.infoByCountry)
+    this.sortableCountry = this.infoByCountry.sort(function (a, b) {
       var x = a.country.toLowerCase()
       var y = b.country.toLowerCase()
       return x < y ? -1 : x > y ? 1 : 0
@@ -92,7 +104,7 @@ export default {
       var v = this
       setTimeout(function () {
         v.isLoading = true
-      }, 3000)
+      }, 5000)
     },
     getCountryInfo (val) {
       this.isSelected = val
