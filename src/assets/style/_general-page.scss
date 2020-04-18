@@ -1,21 +1,22 @@
-.cov-general-list,
-.cov-info-list {
-    @include padding($top: 20px, $media: $media-tablet);
-    @include padding($top: 50px, $media: $media-laptop);
-    @include margin($left: auto, $right: auto);
+.cov-info-lists {
     display: flex;
+    justify-content: space-between;
     width: 100%;
+    margin: auto;
+    flex-direction: row;
+
+    .cov-country-info {
+        width: 25%;
+    }
+}
+
+.cov-country-info-list {
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-    @include mobileM {
-        width: 80%;
-        flex-direction: row;
-    }
-
-    @include tabletL {
-        width: 60%;
-    }
+    width: auto;
+    max-width: 120px;
+    margin: auto;
 
     .item {
         @include padding($top: 5px, $bottom: 5px);
@@ -26,52 +27,34 @@
         align-items: center;
 
         @include mobileM {
-            flex-direction: column;
         }
 
         .svg-inline--fa {
             @include margin($right: 5px);
 
             @include mobileM {
-                @include margin($right: 0);
             }
         }
 
         span {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: rem(14);
+            line-height: 1;
             @include margin($left: 5px);
 
             @include mobileM {
-                @include margin($left: 0);
             }
-        }
-    }
-}
-
-.cov-world-time {
-    display: block;
-
-    @include tablet {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    p {
-        display: block;
-
-        @include tablet {
-            display: flex;
-            flex-direction: column;
         }
     }
 }
 
 .cov-country-list {
-
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
+    width: 70%;
+    margin: 0;
 
     .item {
         margin: 5px;
@@ -95,7 +78,6 @@
         }
 
         .item-img {
-            // @include margin($bottom: 5px);
             width: 20px;
             max-height: 15px;
         }
@@ -106,5 +88,68 @@
 
     .cov-info-list {
         padding: 0;
+    }
+
+    .cov-country-title {
+        font-weight: bold;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        max-width: 100px;
+        margin: auto;
+    }
+}
+
+.cov-continent-list {
+    display: block;
+    width: 100%;
+    margin: auto;
+
+    @include tablet {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+
+    .cov-continent-item {
+        width: 100%;
+        display: inline-block;
+        margin: auto;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size: rem(14);
+        line-height: 1;
+        text-align: center;
+        @include margin($bottom: 20px);
+
+        @include mobileM {
+            width: calc(100% / 2);
+            text-align: left;
+        }
+
+        @include tablet {
+            width: calc(720px / 3);
+        }
+
+        @include laptop {
+            width: calc(960px / 3);
+        }
+
+        @include laptopL {
+            width: calc(1140px / 6);
+        }
+
+        strong {
+            @include margin($right: 10px);
+            font-size: rem(16);
+            font-family: 'Times New Roman', Times, serif;
+        }
+    }
+
+    .cov-continent-title {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: bold;
+        font-size: rem(18);
+        margin-bottom: 0;
+        line-height: 1;
     }
 }

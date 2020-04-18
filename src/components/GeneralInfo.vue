@@ -4,50 +4,52 @@
       :isLoading="isLoading"
     />
     <template v-if='isLoading'>
-      <!-- <p> {{ this.countryList }} </p> -->
-      <!-- <div class="cov-world-time">
-        <p><b>last update time </b> <span v-if="allData.updated">{{ allData.updated | moment("MMM Do, h:mm a") }}</span></p>
-        <p><b>Los Angeles</b> <span v-if="allData.updated">{{ allData.updated | moment('timezone', 'America/Los_Angeles', 'MMM Do, h:mm a') }}</span></p>
-        <p><b>London</b> <span v-if="allData.updated">{{ allData.updated | moment('timezone', 'Europe/London', 'MMM Do, h:mm a') }}</span></p>
-        <p><b>Shanghai</b> <span v-if="allData.updated">{{ allData.updated | moment('timezone', 'Asia/Shanghai', 'MMM Do, h:mm a') }}</span></p>
-      </div> -->
-      <ul class="cov-general-list">
-        <li class="item"><font-awesome-icon icon="history" /><b>last update time</b> <span>{{ allData.updated | moment("MMM Do, h:mm a") }}</span></li>
-        <li class="item"><font-awesome-icon icon="viruses" /><b>cases</b> <span>{{ allData.cases }}</span></li>
-        <li class="item"><font-awesome-icon icon="skull-crossbones" /><b>deaths</b> <span>{{ allData.deaths }}</span></li>
-        <li class="item"><font-awesome-icon icon="heartbeat" /><b>recovered</b> <span>{{ allData.recovered }}</span></li>
-      </ul>
+      <div class="cov-continent-list">
+        <div class="cov-continent-item" v-for="(item, index) in allContinents" :key="index">
+          <p class="cov-continent-title">{{item.continent}}</p>
+          <p class="cov-continent-time-update"><strong><font-awesome-icon icon="history" /></strong>{{item.updated | moment("MMM Do, h:mm a")}}</p>
+          <p class="cov-continent-active"><strong><font-awesome-icon icon="hospital-alt" /></strong>{{item.active}}</p>
+          <p class="cov-continent-today-cases"><strong><font-awesome-icon icon="ambulance" /></strong>{{item.todayCases}}</p>
+          <p class="cov-continent-total-deaths"><strong><font-awesome-icon icon="skull-crossbones" /></strong>{{item.deaths}} (today:{{item.todayDeaths}})</p>
+          <p class="cov-continent-total-recovered"><strong><font-awesome-icon icon="heartbeat" /></strong>{{item.recovered}}</p>
+          <!-- <p class="cov-continent-critical"><strong>critical</strong>{{item.critical}}</p> -->
+        </div>
+      </div>
       <br/>
-      <ul class="cov-country-list">
-        <li
-          v-for="(item, index) in sortableCountry"
-          :class="['item', {'is-active':item.country == isSelected}]"
-          :key="index"
-          @click="getCountryInfo(item.country)"
-        >
-          <img class="item-img" :src="item.countryInfo.flag" :alt="item.country" />
-          <!-- <span class="item-title">{{item.country}}</span> -->
-        </li>
-      </ul>
-      <div class="cov-country-info" v-if="Object.keys(this.selectCountry).length > 0">
-        <p class="item-title">
-          {{ this.selectCountry.country }}
-        </p>
-        <ul class="cov-info-list">
-          <!-- <li class="item"><font-awesome-icon icon="viruses" /><b>updated</b> <span>{{ this.selectCountry.updated | moment("MMM Do, h:mm a") }}</span></li> -->
-          <li class="item"><font-awesome-icon icon="viruses" /><b>cases</b> <span>{{ this.selectCountry.cases }}</span></li>
-          <li class="item"><font-awesome-icon icon="ambulance" /><b>todayCases</b> <span>{{ this.selectCountry.todayCases }}</span></li>
-          <li class="item"><font-awesome-icon icon="skull-crossbones" /><b>deaths</b> <span>{{ this.selectCountry.deaths }}</span></li>
-          <li class="item"><font-awesome-icon icon="heartbeat" /><b>recovered</b> <span>{{ this.selectCountry.recovered }}</span></li>
+      <div class="cov-info-lists">
+        <ul class="cov-country-list">
+          <li
+            v-for="(item, index) in sortableCountry"
+            :class="['item', {'is-active':item == isSelected}]"
+            :key="index"
+            @click="getCountryInfo(item)"
+          >
+            <span class="item-title">{{item}}</span>
+          </li>
         </ul>
+        <div class="cov-country-info">
+          <template v-if="Object.keys(this.selectCountry).length > 0">
+              <p class="item-title cov-country-title">
+                {{ this.selectCountry.country }}
+              </p>
+              <ul class="cov-country-info-list">
+                <li class="item"><font-awesome-icon icon="hospital-alt" /><span>{{ this.selectCountry.cases }}</span></li>
+                <li class="item"><font-awesome-icon icon="ambulance" /><span>{{ this.selectCountry.todayCases }}</span></li>
+                <li class="item"><font-awesome-icon icon="skull-crossbones" /><span>{{ this.selectCountry.deaths }}</span></li>
+                <li class="item"><font-awesome-icon icon="heartbeat" /><span>{{ this.selectCountry.recovered }}</span></li>
+              </ul>
+          </template>
+          <template v-else>
+            <p>select country from list</p>
+          </template>
+        </div>
       </div>
     </template>
   </div>
 </template>
 
 <script>
-// import moment from 'moment'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import Loader from '@/components/ui/Loader'
 
 export default {
@@ -64,39 +66,28 @@ export default {
     }
   },
   computed: {
-    ...mapState(['allData', 'infoByCountry']),
+    ...mapState(['allContinents', 'allCountries', 'countryList']),
+    ...mapActions(['infoByContinents', 'infoByCountries']),
     checkRequestStatus () {
-      if (this.allData !== null && this.infoByCountry.length !== 0) {
+      if (this.allContinents !== null && this.allContinents.length !== 0) {
         return true
       } else {
         return false
       }
-    },
-    countryList () {
-      return this.$store.state.countryList
-    },
-    infoCountrys () {
-      // this.$store.dispatch('countrysInfo')
-      console.log(this.$store.state.infoByCountry)
-      return this.$store.state.infoByCountry
     }
   },
   beforeCreate () {
-    console.log('1')
-    this.$store.dispatch('allInfo')
-    console.log('2')
-    this.$store.dispatch('countrysInfo')
-    console.log('3')
   },
   created () {
-    // console.log(this.infoByCountry)
-    this.sortableCountry = this.infoByCountry.sort(function (a, b) {
+    this.sortableCountry = this.countryList.sort(function (a, b) {
       var x = a.country.toLowerCase()
       var y = b.country.toLowerCase()
       return x < y ? -1 : x > y ? 1 : 0
     })
   },
   mounted () {
+    this.$store.dispatch('infoByCountries')
+    this.$store.dispatch('infoByContinents')
     this.callFunction()
   },
   methods: {
