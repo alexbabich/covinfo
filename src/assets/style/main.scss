@@ -3,6 +3,7 @@
 @import './base-style';
 
 // import style for ui elements
+@import 'vue-select/src/scss/vue-select.scss';
 @import './ui/index.scss';
 
 @import './general-page';

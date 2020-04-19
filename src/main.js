@@ -5,6 +5,7 @@ import router from './router'
 import store from './store'
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
+import vSelect from 'vue-select'
 import i18n from './i18n'
 import './fontawesome'
 
@@ -13,6 +14,8 @@ Vue.use(VueI18n)
 Vue.use(VueMoment, {
   moment
 })
+
+Vue.component('v-select', vSelect)
 
 Vue.config.productionTip = false
 

@@ -12,37 +12,26 @@
           <p class="cov-continent-today-cases"><strong><font-awesome-icon icon="ambulance" /></strong>{{item.todayCases}}</p>
           <p class="cov-continent-total-deaths"><strong><font-awesome-icon icon="skull-crossbones" /></strong>{{item.deaths}} (today:{{item.todayDeaths}})</p>
           <p class="cov-continent-total-recovered"><strong><font-awesome-icon icon="heartbeat" /></strong>{{item.recovered}}</p>
-          <!-- <p class="cov-continent-critical"><strong>critical</strong>{{item.critical}}</p> -->
         </div>
       </div>
       <br/>
       <div class="cov-info-lists">
-        <ul class="cov-country-list">
-          <li
-            v-for="(item, index) in sortableCountry"
-            :class="['item', {'is-active':item == isSelected}]"
-            :key="index"
-            @click="getCountryInfo(item)"
-          >
-            <span class="item-title">{{item}}</span>
-          </li>
-        </ul>
-        <div class="cov-country-info">
-          <template v-if="Object.keys(this.selectCountry).length > 0">
-              <p class="item-title cov-country-title">
-                {{ this.selectCountry.country }}
-              </p>
-              <ul class="cov-country-info-list">
-                <li class="item"><font-awesome-icon icon="hospital-alt" /><span>{{ this.selectCountry.cases }}</span></li>
-                <li class="item"><font-awesome-icon icon="ambulance" /><span>{{ this.selectCountry.todayCases }}</span></li>
-                <li class="item"><font-awesome-icon icon="skull-crossbones" /><span>{{ this.selectCountry.deaths }}</span></li>
-                <li class="item"><font-awesome-icon icon="heartbeat" /><span>{{ this.selectCountry.recovered }}</span></li>
-              </ul>
-          </template>
-          <template v-else>
-            <p>select country from list</p>
-          </template>
-        </div>
+        <v-select :options="sortableCountry" @input="getCountryInfo" class="cov-country-list"></v-select>
+        <br/>
+        <template v-if="Object.keys(this.selectCountry).length > 0">
+            <!-- <p class="item-title cov-country-title">
+              {{ this.selectCountry.country }}
+            </p> -->
+            <ul class="cov-country-info-list">
+              <li class="item"><font-awesome-icon icon="hospital-alt" /><span>{{ this.selectCountry.cases }}</span></li>
+              <li class="item"><font-awesome-icon icon="ambulance" /><span>{{ this.selectCountry.todayCases }}</span></li>
+              <li class="item"><font-awesome-icon icon="skull-crossbones" /><span>{{ this.selectCountry.deaths }}</span></li>
+              <li class="item"><font-awesome-icon icon="heartbeat" /><span>{{ this.selectCountry.recovered }}</span></li>
+            </ul>
+        </template>
+        <template v-else>
+          <p>select country from list</p>
+        </template>
       </div>
     </template>
   </div>
