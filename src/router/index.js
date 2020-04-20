@@ -11,9 +11,14 @@ const routes = [
     component: Home
   },
   {
-    path: '/country',
+    path: '/country/:iso',
     name: 'CountryChart',
     component: () => import(/* webpackChunkName: "about" */ '../views/CountryChart.vue')
+  },
+  {
+    path: '/country',
+    name: 'Country',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Country.vue')
   }
 ]
 

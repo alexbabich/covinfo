@@ -8,6 +8,32 @@
   </div>
 </template>
 
+<script>
+export default {
+  components: { },
+  props: {
+  },
+  data () {
+    return {
+    }
+  },
+  computed: {
+  },
+  created () {
+    // console.log('App')
+  },
+  mounted () {
+  },
+  methods: {
+  },
+  watch: {
+    // $route (to, from) {
+    //   console.log('watch App')
+    // }
+  }
+}
+</script>
+
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

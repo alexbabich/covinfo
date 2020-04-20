@@ -12,6 +12,14 @@ export default {
   name: 'Home',
   components: {
     GeneralInfo
+  },
+  created () {
+    console.log('Home')
+  },
+  watch: {
+    $route (to, from) {
+      console.log('watch Home')
+    }
   }
 }
 </script>

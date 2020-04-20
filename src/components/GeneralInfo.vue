@@ -18,18 +18,17 @@
       <div class="cov-info-lists">
         <v-select :options="sortableCountry" @input="getCountryInfo" class="cov-country-list"></v-select>
         <br/>
-        <template v-if="Object.keys(this.selectCountry).length > 0">
-            <!-- <p class="item-title cov-country-title">
-              {{ this.selectCountry.country }}
-            </p> -->
-            <ul class="cov-country-info-list">
-              <li class="item"><font-awesome-icon icon="hospital-alt" /><span>{{ this.selectCountry.cases }}</span></li>
-              <li class="item"><font-awesome-icon icon="ambulance" /><span>{{ this.selectCountry.todayCases }}</span></li>
-              <li class="item"><font-awesome-icon icon="skull-crossbones" /><span>{{ this.selectCountry.deaths }}</span></li>
-              <li class="item"><font-awesome-icon icon="heartbeat" /><span>{{ this.selectCountry.recovered }}</span></li>
-            </ul>
+        <template v-show="isSelected">
+          {{ this.selectCountry }}
+          <!-- <ul class="cov-country-info-list">
+            <li class="item"><font-awesome-icon icon="hospital-alt" /><span>{{ this.selectCountry.cases }}</span></li>
+            <li class="item"><font-awesome-icon icon="ambulance" /><span>{{ this.selectCountry.todayCases }}</span></li>
+            <li class="item"><font-awesome-icon icon="skull-crossbones" /><span>{{ this.selectCountry.deaths }}</span></li>
+            <li class="item"><font-awesome-icon icon="heartbeat" /><span>{{ this.selectCountry.recovered }}</span></li>
+          </ul>
+          <router-link :to="`country/${this.selectCountry.countryInfo.iso3}`" class="cov-country-link">view more</router-link> -->
         </template>
-        <template v-else>
+        <template v-show="!isSelected">
           <p>select country from list</p>
         </template>
       </div>
@@ -48,7 +47,7 @@ export default {
   },
   data () {
     return {
-      isSelected: '',
+      isSelected: false,
       isLoading: false,
       selectCountry: [],
       sortableCountry: []
@@ -58,7 +57,7 @@ export default {
     ...mapState(['allContinents', 'allCountries', 'countryList']),
     ...mapActions(['infoByContinents', 'infoByCountries']),
     checkRequestStatus () {
-      if (this.allContinents !== null && this.allContinents.length !== 0) {
+      if (this.allContinents !== null && this.allContinents.length !== 0 && this.countryList.length !== 0) {
         return true
       } else {
         return false
@@ -68,31 +67,42 @@ export default {
   beforeCreate () {
   },
   created () {
-    this.sortableCountry = this.countryList.sort(function (a, b) {
-      var x = a.country.toLowerCase()
-      var y = b.country.toLowerCase()
-      return x < y ? -1 : x > y ? 1 : 0
-    })
+    console.log('GeneralInfo')
+    this.loadPage()
   },
   mounted () {
-    this.$store.dispatch('infoByCountries')
-    this.$store.dispatch('infoByContinents')
+    // this.$store.dispatch('infoByCountries')
+    // this.$store.dispatch('infoByContinents')
     this.callFunction()
   },
   methods: {
+    loadPage () {
+      this.$store.dispatch('infoByCountries')
+      this.$store.dispatch('infoByContinents')
+      this.sortableCountry = this.countryList.sort(function (a, b) {
+        var x = a.country.toLowerCase()
+        var y = b.country.toLowerCase()
+        return x < y ? -1 : x > y ? 1 : 0
+      })
+    },
     callFunction () {
       var v = this
       setTimeout(function () {
         v.isLoading = true
-      }, 5000)
+      }, 500)
     },
     getCountryInfo (val) {
-      this.isSelected = val
-      this.selectCountry = this.$store.getters.getCountryByName(val)
+      console.log(val)
+      if (val !== '') {
+        this.isSelected = true
+        this.selectCountry = this.$store.getters.getCountryByName(val)
+      } else {
+        this.isSelected = false
+        this.selectCountry = []
+      }
+
       return true
     }
-  },
-  watch: {
   }
 }
 </script>
