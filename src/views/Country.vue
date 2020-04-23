@@ -20,15 +20,17 @@ export default {
   computed: {
   },
   created () {
-    console.log('Country')
   },
   mounted () {
   },
   methods: {
   },
   watch: {
-    $route (to, from) {
-      console.log('watch Country')
+    '$route.path': {
+      handler: function (path) {
+      },
+      deep: true,
+      immediate: true
     }
   }
 }

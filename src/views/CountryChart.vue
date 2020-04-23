@@ -36,8 +36,6 @@ export default {
   computed: {
   },
   created () {
-    console.log('CountryChart')
-    console.log(this.$route)
     this.mainInfo(this.$route.params.iso)
     this.getHistory()
   },
@@ -50,7 +48,7 @@ export default {
     },
     getHistory () {
       axios.get(`https://corona.lmao.ninja/v2/historical/${this.countryInfo.country}`).then(resp => {
-        console.log(resp)
+        // console.log(resp)
         this.countryHistory = resp
       }).catch(error => {
         throw new Error(`API ${error}`)

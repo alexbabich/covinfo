@@ -16,19 +16,19 @@
       </div>
       <br/>
       <div class="cov-info-lists">
-        <v-select :options="sortableCountry" @input="getCountryInfo" class="cov-country-list"></v-select>
+        <v-select :options="countryList" @input="getCountryInfo" class="cov-country-list" />
         <br/>
-        <template v-show="isSelected">
-          {{ this.selectCountry }}
-          <!-- <ul class="cov-country-info-list">
+        <template v-if="isSelected">
+          <!-- {{ this.selectCountry }} -->
+          <ul class="cov-country-info-list">
             <li class="item"><font-awesome-icon icon="hospital-alt" /><span>{{ this.selectCountry.cases }}</span></li>
             <li class="item"><font-awesome-icon icon="ambulance" /><span>{{ this.selectCountry.todayCases }}</span></li>
             <li class="item"><font-awesome-icon icon="skull-crossbones" /><span>{{ this.selectCountry.deaths }}</span></li>
             <li class="item"><font-awesome-icon icon="heartbeat" /><span>{{ this.selectCountry.recovered }}</span></li>
           </ul>
-          <router-link :to="`country/${this.selectCountry.countryInfo.iso3}`" class="cov-country-link">view more</router-link> -->
+          <router-link :to="`country/${this.selectCountry.countryInfo.iso3}`" class="cov-country-link">view more</router-link>
         </template>
-        <template v-show="!isSelected">
+        <template v-else>
           <p>select country from list</p>
         </template>
       </div>
@@ -49,15 +49,14 @@ export default {
     return {
       isSelected: false,
       isLoading: false,
-      selectCountry: [],
-      sortableCountry: []
+      selectCountry: []
     }
   },
   computed: {
     ...mapState(['allContinents', 'allCountries', 'countryList']),
     ...mapActions(['infoByContinents', 'infoByCountries']),
     checkRequestStatus () {
-      if (this.allContinents !== null && this.allContinents.length !== 0 && this.countryList.length !== 0) {
+      if (this.allContinents !== null && this.allContinents.length !== 0) {
         return true
       } else {
         return false
@@ -67,23 +66,15 @@ export default {
   beforeCreate () {
   },
   created () {
-    console.log('GeneralInfo')
     this.loadPage()
   },
   mounted () {
-    // this.$store.dispatch('infoByCountries')
-    // this.$store.dispatch('infoByContinents')
     this.callFunction()
   },
   methods: {
     loadPage () {
       this.$store.dispatch('infoByCountries')
       this.$store.dispatch('infoByContinents')
-      this.sortableCountry = this.countryList.sort(function (a, b) {
-        var x = a.country.toLowerCase()
-        var y = b.country.toLowerCase()
-        return x < y ? -1 : x > y ? 1 : 0
-      })
     },
     callFunction () {
       var v = this
@@ -92,7 +83,6 @@ export default {
       }, 500)
     },
     getCountryInfo (val) {
-      console.log(val)
       if (val !== '') {
         this.isSelected = true
         this.selectCountry = this.$store.getters.getCountryByName(val)
@@ -102,6 +92,16 @@ export default {
       }
 
       return true
+    }
+  },
+  watch: {
+    '$route.path': {
+      handler: function (path) {
+      },
+      deep: true,
+      immediate: true
+    },
+    countryList (newValue, oldValue) {
     }
   }
 }

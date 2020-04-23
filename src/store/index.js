@@ -10,7 +10,8 @@ export default new Vuex.Store({
     allCountries: [],
     allContinents: [],
     countryList: [],
-    countryHistory: []
+    countryHistory: [],
+    tmp: []
   },
   mutations: {
     INFO_BY_CONTINENTS (state, allContinents) {
@@ -20,7 +21,8 @@ export default new Vuex.Store({
       state.allCountries = allCountries
     },
     COUNTRY_LIST (state, countryList) {
-      state.countryList.push(countryList.country)
+      state.tmp.push(countryList)
+      state.countryList = [...new Set(state.tmp)]
     },
     COUNTRY_HISTORY (state, countryHistory) {
       state.countryHistory = countryHistory
@@ -39,25 +41,25 @@ export default new Vuex.Store({
         .then(result => {
           commit('INFO_BY_COUNTRY', result.data)
           result.data.map(resp => {
-            commit('COUNTRY_LIST', resp)
-          })
-        })
-        .catch(error => {
-          throw new Error(`API ${error}`)
-        })
-    },
-    historyByCountry ({ commit }) {
-      axios.get('https://corona.lmao.ninja/v2/countries')
-        .then(result => {
-          commit('INFO_BY_COUNTRY', result.data)
-          result.data.map(resp => {
-            commit('COUNTRY_LIST', resp)
+            commit('COUNTRY_LIST', resp.country)
           })
         })
         .catch(error => {
           throw new Error(`API ${error}`)
         })
     }
+    // historyByCountry ({ commit }) {
+    //   axios.get('https://corona.lmao.ninja/v2/countries')
+    //     .then(result => {
+    //       commit('INFO_BY_COUNTRY', result.data)
+    //       result.data.map(resp => {
+    //         commit('COUNTRY_LIST', resp)
+    //       })
+    //     })
+    //     .catch(error => {
+    //       throw new Error(`API ${error}`)
+    //     })
+    // }
   },
   modules: {
   },

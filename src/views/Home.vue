@@ -5,7 +5,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import GeneralInfo from '@/components/GeneralInfo.vue'
 
 export default {
@@ -14,11 +13,13 @@ export default {
     GeneralInfo
   },
   created () {
-    console.log('Home')
   },
   watch: {
-    $route (to, from) {
-      console.log('watch Home')
+    '$route.path': {
+      handler: function (path) {
+      },
+      deep: true,
+      immediate: true
     }
   }
 }

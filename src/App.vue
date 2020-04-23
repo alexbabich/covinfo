@@ -20,16 +20,12 @@ export default {
   computed: {
   },
   created () {
-    // console.log('App')
   },
   mounted () {
   },
   methods: {
   },
   watch: {
-    // $route (to, from) {
-    //   console.log('watch App')
-    // }
   }
 }
 </script>
